@@ -1,5 +1,5 @@
 // Disable console for production or comment this line out to enable it for debugging.
-console.log = function() {};
+//console.log = function() {};
 
 var initialized = false;
 var divider = 1000000;
