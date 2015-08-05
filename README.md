@@ -11,7 +11,6 @@ Main issue: You can add targets (e.g. coordinates of geocaches) only via the set
 Here is my current plan and backlog of changes and improvements:
 
 To Do
-- Start navigation in auto-mode, orientation of compass locked (that is my favorized setup for approaching geocaches). (XS)
 - Change the color feedback while navigating from nautic scheme to a more intuitive scheme for non-nautics. Green = Getting closer, target ahead. Yellow = Getting closer but target off to the side. Red = Getting away from target, wrong direction. (L)
 - Offline-Setting-Page mit Feld für die schnelle Übernahme eines neuen Ziels. Ziel wird zu oberst in die Liste eingetragen, direkt als Ziel übernommen und die Navigation gestartet. (XL)
 - Test with Android smartphone. Test on Original Pebble and Pebble Steel. (L)
@@ -21,9 +20,10 @@ To Do
 - Later: Komplett auf Offline-Setting-Page umstellen. (L)
 
 In Work
-- Getting the source codes of the app, setting the develop and build environment up and starting with a clean compile of the original app. (M)
-- Change app name, give credits and reference to original creators of the app foundation. (M)
 - Research and test out offline-setting-page options in Pebble app development. (L) Preliminary result: Encoding the setting page onboard with Data URI looks promising.
 
 Done
+- Start navigation in auto-mode, orientation of compass locked (that is my favorized setup for approaching geocaches). (XS)
+- Change app name, give credits and reference to original creators of the app foundation. (M)
+- Getting the source codes of the app, setting the develop and build environment up and starting with a clean compile of the original app. (M)
 - Setup Github and Pebble Cloud SDK (M)
