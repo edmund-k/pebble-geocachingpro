@@ -34,8 +34,8 @@
         "location",
         "configurable"
     ],
-    "companyName": "peter@summers.aus.net",
-    "longName": "Get Back To",
+    "companyName": "Edmund K.",
+    "longName": "Geocaching Pro",
     "projectType": "native",
     "resources": {
         "media": [
@@ -48,12 +48,11 @@
         ]
     },
     "sdkVersion": "3",
-    "shortName": "Get Back To",
+    "shortName": "Geocaching Pro",
     "targetPlatforms": [
-        "aplite",
         "basalt"
     ],
-    "uuid": "28f06dab-9a56-41f7-8166-a7e5712eed56",
+    "uuid": "f229ca41-9610-4928-a758-07bd0a525665",
     "versionLabel": "3.1",
     "watchapp": {
         "watchface": false
