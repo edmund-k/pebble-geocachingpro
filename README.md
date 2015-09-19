@@ -11,18 +11,21 @@ Main issue: You can add targets (e.g. coordinates of geocaches) only via the set
 Here is my current plan and backlog of changes and improvements:
 
 To Do
-- Change the color feedback while navigating from nautic scheme to a more intuitive scheme for non-nautics. Green = Getting closer, target ahead. Yellow = Getting closer but target off to the side. Red = Getting away from target, wrong direction. (L)
-- Offline-Setting-Page mit Feld für die schnelle Übernahme eines neuen Ziels. Ziel wird zu oberst in die Liste eingetragen, direkt als Ziel übernommen und die Navigation gestartet. (XL)
 - Test with Android smartphone. Test on Original Pebble and Pebble Steel. (L)
 - Public release in Pebble App Store. App description. Functions. (L)
 - Later: Rework UI. Geocaching App und neuen Kompass als Basis? Uhrzeit und Datum für Logs einblenden, evtl nur wenn Uhr gekickt wird. (XL)
-- Later: Optimize power consumption. API Calls optimieren. Hintergrundaktivität optimieren. UI optimieren auf möglichst wenig und kleinflächige E-Paper Updates. (L)
 - Later: Komplett auf Offline-Setting-Page umstellen. (L)
 
 In Work
-- Research and test out offline-setting-page options in Pebble app development. (L) Preliminary result: Encoding the setting page onboard with Data URI looks promising.
+- Next: Optimize power consumption. API Calls optimieren. Hintergrundaktivität optimieren. UI optimieren auf möglichst wenig und kleinflächige E-Paper Updates. (L) Started with reduced compass messaging and less redraw activity if not in auto-mode. Next: Analyse messages and start reducing message transfer. 
+- Change the color feedback while navigating from nautic scheme to a more intuitive scheme for non-nautics. Green = Getting closer, target ahead. Yellow = Getting closer but target off to the side. Red = Getting away from target, wrong direction. (L) Removed the coloring for now. (S)
 
 Done
+- New design. 
+- Improved compass acquisition. Set up filter to only receive updates for every 6°.
+- Improved start in auto-mode. Disabled compass acquisition from beginning. 
+- Offline-Setting-Page mit Feld für die schnelle Übernahme eines neuen Ziels. Ziel wird zu oberst in die Liste eingetragen, direkt als Ziel übernommen und die Navigation gestartet. (XL)
+- Research and test out offline-setting-page options in Pebble app development. (L) Preliminary result: Encoding the setting page onboard with Data URI looks promising.
 - Start navigation in auto-mode, orientation of compass locked (that is my favorized setup for approaching geocaches). (XS)
 - Change app name, give credits and reference to original creators of the app foundation. (M)
 - Getting the source codes of the app, setting the develop and build environment up and starting with a clean compile of the original app. (M)
