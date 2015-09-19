@@ -1,5 +1,5 @@
 // Disable console for production or comment this line out to enable it for debugging.
-//console.log = function() {};
+console.log = function() {};
 
 var initialized = false;
 var divider = 1000000;
@@ -46,11 +46,15 @@ var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456
  * Display that text in the watch app on the Pebble. 
  */
 var configHtml;
-configHtml  = "<html><head></head><body>";
-configHtml += "<p>Hi, I'm an offline Pebble configuration page!</p>";
-configHtml += "<p><textarea cols='40' rows='1' id='input'></textarea></p>";
+configHtml  = "<html><head><style>body{font-family:sans-serif}</style></head><body>";
+configHtml += "<h1>Geocaching Pro</h1>";
+configHtml += "<p><b>Location</b></p>";
+configHtml += "<p>Enter {label}: {latitude} {longitude}<br>";
+configHtml += "<textarea cols='40' rows='1' id='input'></textarea></p>";
 configHtml += "<p><button id='save_button'>Set as new location</button></p>";
-configHtml += "<p><a href='" + uri + "'>Go to online configuration</button></p>";
+configHtml += "<p>&nbsp;</p>";
+configHtml += "<p><a href='" + uri + "'>More options</a><br>";
+configHtml += "(requires internet connection)</p>";
 configHtml += "<script>";
 configHtml += "function saveOptions() {";
   configHtml += "return {";
@@ -61,8 +65,6 @@ configHtml += "document.getElementById(\"save_button\").addEventListener(\"click
   configHtml += "document.location = \"pebblejs://close#\" + encodeURIComponent(JSON.stringify(saveOptions()));";
 configHtml += "}, false);";
 configHtml += "</script>";
-//configHtml += "<p><a href='javascript:document.location=\"pebblejs://close#\" + encodeURIComponent(JSON.stringify(saveOptions()))'>Working save options</a></p>";
-//configHtml += "<p><a href='javascript:document.location=\"pebblejs://close#\" + encodeURIComponent(JSON.stringify({input:document.getElementById(\"input\").value}))'>Working a href</a></p>";
 configHtml += "</body></html>";
 
 Pebble.addEventListener("ready", function(e) {
@@ -342,12 +344,13 @@ function sendToWatch() {
   if (settingPin || gettingInfo) {
     var date = new Date();
     var pinID = Math.round(date.getTime()/1000);
-    hintMessage = (myLat>=0 ? myLat.toFixed(5)+"N" : (-myLat).toFixed(5)+"S")+"\n"+
+    hintMessage = 
+      date.toDateString().substr(4,6) + " " + date.toTimeString().substr(0,5) + "\n" +
+      (myLat>=0 ? myLat.toFixed(5)+"N" : (-myLat).toFixed(5)+"S")+"\n"+
       (myLong>=0 ? myLong.toFixed(5)+"E" : (-myLong).toFixed(5)+"W") +
       ((myAccuracy === null) ? "" : ("\nAcc:"+(imperial ? (myAccuracy/yardLength).toFixed(0)+"yd" : myAccuracy.toFixed(0)+"m"))) +
       ((myAltitude === null) ? "" : ("\nAlt:"+(imperial ? (myAltitude/footLength).toFixed(0) : myAltitude.toFixed(0)) + 
-      ((myAltitudeAccuracy === null) ? "" : (plusorminussymbol + (imperial ? (myAltitudeAccuracy/footLength).toFixed(0) : myAltitudeAccuracy.toFixed(0)))+
-      (imperial ? "ft" : "m")))) + "\nat "+date.toTimeString().substr(0,8);
+      ((myAltitudeAccuracy === null) ? "" : (plusorminussymbol + (imperial ? (myAltitudeAccuracy/footLength).toFixed(0) : myAltitudeAccuracy.toFixed(0))) + (imperial ? "ft" : "m"))));
       console.log("Message = "+hintMessage);
     if (settingPin) {
       // Store the coordinates.

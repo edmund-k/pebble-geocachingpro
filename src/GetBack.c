@@ -3,6 +3,11 @@
 #undef APP_LOG
 #define APP_LOG(...)
 
+#undef GColorBlack
+#define GColorBlack (GColor8){.argb=GColorWhiteARGB8}
+#undef GColorWhite
+#define GColorWhite (GColor8){.argb=GColorBlackARGB8}
+
 #define MENU_LENGTH 22
 
 static Window *window, *menu_window;
@@ -355,18 +360,20 @@ void in_received_handler(DictionaryIterator *iter, void *context) {
   if (unit_tuple) {
     strncpy(unit_text, unit_tuple->value->cstring, sizeof unit_text);
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Unit: %s", unit_text);
+    text_layer_set_text_color(unit_layer, GColorBlack);
     text_layer_set_text(unit_layer, unit_text);
   }
 
   Tuple *distance_tuple = dict_find(iter, DISTANCE_KEY);
   if (distance_tuple) {
+    text_layer_set_text_color(distance_layer, GColorBlack);
     if ((distance_text[0] != '!') && (distance_tuple->value->cstring[0] == '!')) vibes_double_pulse();
     strcpy(distance_text, distance_tuple->value->cstring);
     if (distance_text[0] == '!') {
       text_layer_set_text(distance_layer, &distance_text[1]);
       #ifdef PBL_COLOR
-      text_layer_set_text_color(distance_layer, GColorBlue);
-      text_layer_set_text_color(unit_layer, GColorBlue);
+      text_layer_set_text_color(distance_layer, GColorInchworm);
+      text_layer_set_text_color(unit_layer, GColorInchworm);
       #endif
     } else {
       text_layer_set_text(distance_layer, distance_text);
@@ -473,7 +480,7 @@ static void head_layer_update_callback(Layer *layer, GContext *ctx) {
   gpath_rotate_to(head_path, (TRIG_MAX_ANGLE / 360) * (bearing + TRIGANGLE_TO_DEG(orientation)));
   graphics_context_set_fill_color(ctx, GColorBlack);
   graphics_fill_circle(ctx, center, 77);
-#ifdef PBL_COLOR
+/* #ifdef PBL_COLOR
   if (heading >= 0) {
     int angle = bearing - heading;
     if (angle < 0) angle += 360;
@@ -503,8 +510,8 @@ static void head_layer_update_callback(Layer *layer, GContext *ctx) {
       graphics_context_set_fill_color(ctx, GColorChromeYellow);
     else
       graphics_context_set_fill_color(ctx, GColorYellow);
-  } else /* heading undefined */
-#endif
+  } else // heading undefined
+#endif */
   graphics_context_set_fill_color(ctx, GColorWhite);
   gpath_draw_filled(ctx, head_path);
   graphics_fill_circle(ctx, center, 49);
@@ -528,6 +535,7 @@ static void toggleorienttoheading(ClickRecognizerRef recognizer, void *context) 
         text_layer_set_text(star_layer, "?");
     } else {
       compass_service_subscribe(&compass_direction_handler);
+      compass_service_set_heading_filter(TRIG_MAX_ANGLE*6/360);
       text_layer_set_text(direction_layer, "!!!");
       if (heading >= 0) {
         text_layer_set_text(star_layer, "*");
@@ -544,12 +552,12 @@ void in_dropped_handler(AppMessageResult reason, void *context) {
  
 static void click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_SELECT, hint_handler);
-//  window_single_click_subscribe(BUTTON_ID_UP, toggleorienttoheading);  Do nothing an just let it turn the light on.
+  window_single_click_subscribe(BUTTON_ID_UP, toggleorienttoheading);  // Comment out to do nothing an just let it turn the light on.
   window_single_click_subscribe(BUTTON_ID_DOWN, get_info_handler);
   window_single_click_subscribe(BUTTON_ID_BACK, go_back_handler);
   window_long_click_subscribe(BUTTON_ID_SELECT, 0, reset_handler, NULL);
-  window_long_click_subscribe(BUTTON_ID_UP, 0, toggleorienttoheading, NULL);
-  window_long_click_subscribe(BUTTON_ID_DOWN, 0, pin_set_handler, NULL);
+//  window_long_click_subscribe(BUTTON_ID_UP, 0, toggleorienttoheading, NULL);
+//  window_long_click_subscribe(BUTTON_ID_DOWN, 0, pin_set_handler, NULL);  // Setting timeline pins does not work for now
 }
 
 static void window_load(Window *window) {
@@ -566,7 +574,7 @@ static void window_load(Window *window) {
   n_layer = text_layer_create(GRect(center.x-14, center.y-80, 28, 28));
   text_layer_set_background_color(n_layer, GColorClear);
   #ifdef PBL_COLOR 
-    text_layer_set_text_color(n_layer, GColorBabyBlueEyes);
+    text_layer_set_text_color(n_layer, GColorBlue); //GColorBabyBlueEyes
   #else
     text_layer_set_text_color(n_layer, GColorWhite);
   #endif  
@@ -578,7 +586,7 @@ static void window_load(Window *window) {
   e_layer = text_layer_create(GRect(center.x+48, center.y-19, 28, 28));
   text_layer_set_background_color(e_layer, GColorClear);
   #ifdef PBL_COLOR 
-    text_layer_set_text_color(e_layer, GColorMintGreen);
+    text_layer_set_text_color(e_layer, GColorGreen); //GColorMintGreen
   #else
     text_layer_set_text_color(e_layer, GColorWhite);
   #endif  
@@ -590,7 +598,7 @@ static void window_load(Window *window) {
   s_layer = text_layer_create(GRect(center.x-14, center.y+48, 28, 28));
   text_layer_set_background_color(s_layer, GColorClear);
   #ifdef PBL_COLOR 
-    text_layer_set_text_color(s_layer, GColorPastelYellow);
+    text_layer_set_text_color(s_layer, GColorChromeYellow); //GColorPastelYellow
   #else
     text_layer_set_text_color(s_layer, GColorWhite);
   #endif  
@@ -602,7 +610,7 @@ static void window_load(Window *window) {
   w_layer = text_layer_create(GRect(center.x-76, center.y-18, 28, 28));
   text_layer_set_background_color(w_layer, GColorClear);
   #ifdef PBL_COLOR 
-    text_layer_set_text_color(w_layer, GColorMelon);
+    text_layer_set_text_color(w_layer, GColorRed); //GColorMelon
   #else
     text_layer_set_text_color(w_layer, GColorWhite);
   #endif  
@@ -622,13 +630,15 @@ static void window_load(Window *window) {
   text_layer_set_text_alignment(star_layer, GTextAlignmentCenter);
   layer_add_child(head_layer, (Layer *) star_layer);
 
+  // center circle middle
   distance_layer = text_layer_create(GRect(0, 60, 144, 42));
   text_layer_set_background_color(distance_layer, GColorClear);
   text_layer_set_font(distance_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
   text_layer_set_text_alignment(distance_layer, GTextAlignmentCenter);
   text_layer_set_text(distance_layer, "...");
   layer_add_child(window_layer, text_layer_get_layer(distance_layer));
-  
+
+  // center circle bottom
   unit_layer = text_layer_create(GRect(50, 96, 44, 30));
   text_layer_set_background_color(unit_layer, GColorClear);
   text_layer_set_font(unit_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
@@ -636,36 +646,46 @@ static void window_load(Window *window) {
   text_layer_set_text(unit_layer, "...");
   layer_add_child(window_layer, text_layer_get_layer(unit_layer));
 
+  // bottom right corner
   direction_layer = text_layer_create(GRect(90, 142, 53, 24));
   text_layer_set_background_color(direction_layer, GColorClear);
+  text_layer_set_text_color(direction_layer, GColorBlack);
   text_layer_set_font(direction_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   text_layer_set_text_alignment(direction_layer, GTextAlignmentRight);
-  text_layer_set_text(direction_layer, "!!!");
+  text_layer_set_text(direction_layer, "---");
   layer_add_child(window_layer, text_layer_get_layer(direction_layer));
 
+  // bottom left corner
   bearing_layer = text_layer_create(GRect(0, 142, 53, 24));
   text_layer_set_background_color(bearing_layer, GColorClear);
+  text_layer_set_text_color(bearing_layer, GColorBlack);
   text_layer_set_font(bearing_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   text_layer_set_text_alignment(bearing_layer, GTextAlignmentLeft);
-  text_layer_set_text(direction_layer, "...");
+  text_layer_set_text(bearing_layer, "...");
   layer_add_child(window_layer, text_layer_get_layer(bearing_layer));
 
+  // center circle top
   speed_layer = text_layer_create(GRect(40, 38, 64, 30));
   text_layer_set_background_color(speed_layer, GColorClear);
+  text_layer_set_text_color(speed_layer, GColorBlack);
   text_layer_set_font(speed_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
   text_layer_set_text_alignment(speed_layer, GTextAlignmentCenter);
   text_layer_set_text(speed_layer, "...");
   layer_add_child(window_layer, text_layer_get_layer(speed_layer));
 
+  // top right corner
   accuracy_layer = text_layer_create(GRect(90, -8, 53, 24));
   text_layer_set_background_color(accuracy_layer, GColorClear);
+  text_layer_set_text_color(accuracy_layer, GColorBlack);
   text_layer_set_font(accuracy_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   text_layer_set_text_alignment(accuracy_layer, GTextAlignmentRight);
   text_layer_set_text(accuracy_layer, "...");
   layer_add_child(window_layer, text_layer_get_layer(accuracy_layer));
 
+  // top left corner
   heading_layer = text_layer_create(GRect(0, -8, 53, 24));
   text_layer_set_background_color(heading_layer, GColorClear);
+  text_layer_set_text_color(heading_layer, GColorBlack);
   text_layer_set_font(heading_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   text_layer_set_text_alignment(heading_layer, GTextAlignmentLeft);
   text_layer_set_text(heading_layer, "...");
@@ -716,8 +736,8 @@ static void menu_window_unload(Window *window) {
 
 static void init(void) {
   // update screen only when heading changes at least 6 degrees
-  compass_service_set_heading_filter(TRIG_MAX_ANGLE*6/360);
-  compass_service_subscribe(&compass_direction_handler);
+  //compass_service_set_heading_filter(TRIG_MAX_ANGLE*6/360);
+  //compass_service_subscribe(&compass_direction_handler);
   
   app_message_register_inbox_received(in_received_handler);
   app_message_register_inbox_dropped(in_dropped_handler);
@@ -728,6 +748,7 @@ static void init(void) {
   hint_layer_size = GRect(6, 18, 132, 132);
   
   window = window_create();
+  window_set_background_color(window, GColorWhite);
   window_set_click_config_provider(window, click_config_provider);
   window_set_window_handlers(window, (WindowHandlers) {
     .load = window_load,
