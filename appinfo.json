@@ -38,14 +38,7 @@
     "longName": "Geocaching Pro",
     "projectType": "native",
     "resources": {
-        "media": [
-            {
-                "file": "images/get back to 28.png",
-                "menuIcon": true,
-                "name": "Menu_Image",
-                "type": "png"
-            }
-        ]
+        "media": []
     },
     "sdkVersion": "3",
     "shortName": "Geocaching Pro",
