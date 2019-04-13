@@ -462,11 +462,14 @@ void in_received_handler(DictionaryIterator *iter, void *context) {
 void compass_direction_handler(CompassHeadingData direction_data){
   static char direction_buf[]="~~~";
   switch (direction_data.compass_status) {
+    case CompassStatusUnavailable:
+      snprintf(direction_buf, sizeof(direction_buf), "%s", "na");
+	  break;
     case CompassStatusDataInvalid:
-      snprintf(direction_buf, sizeof(direction_buf), "%s", "!!!");
+      snprintf(direction_buf, sizeof(direction_buf), "%s", "nv");
       if (!orientToHeading) return;
     case CompassStatusCalibrating:
-      snprintf(direction_buf, sizeof(direction_buf), "%s", "???");
+      snprintf(direction_buf, sizeof(direction_buf), "%s", "cal");
       break;
     case CompassStatusCalibrated:
       snprintf(direction_buf, sizeof(direction_buf), "%d", (int) ((360-TRIGANGLE_TO_DEG(direction_data.true_heading)) % 360));
