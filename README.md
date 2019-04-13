@@ -26,7 +26,7 @@ Resolved
 
 Closed
 - 190413: Show real date instead of dummy.
-- 190413: Compile with Pebble SDK under Linux on Windows 10.
+- 190413: After a 2 years break, this project gets continued. Compile with Pebble SDK under Linux on Windows 10.
 - 2015? New design. 
 - Improved compass acquisition. Set up filter to only receive updates for every 6°.
 - Improved start in auto-mode. Disabled compass acquisition from beginning. 
