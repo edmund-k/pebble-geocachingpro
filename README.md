@@ -10,18 +10,24 @@ Main issue: You can add targets (e.g. coordinates of geocaches) only via the set
 
 Here is my current plan and backlog of changes and improvements:
 
-To Do
+Backlog
+- (Re)add Pebble app menu icon. Compiler error occured with Pebble SDK under Linux on Windows 10: Menu icon needs to be 25x25 pixel. Actual menu icon from cloned project is 28x28 pixel. Investigate on that. Was that changed between Pebble versions? Create correct menu icon and (re)add to project.
+- Improve information and design.
+- Change the color feedback while navigating from nautic scheme to a more intuitive scheme for non-nautics. Green = Getting closer, target ahead. Yellow = Getting closer but target off to the side. Red = Getting away from target, wrong direction. (L) Removed the coloring for now. (S)
+- Optimize power consumption. API Calls optimieren. Hintergrundaktivität optimieren. UI optimieren auf möglichst wenig und kleinflächige E-Paper Updates. (L) Started with reduced compass messaging and less redraw activity if not in auto-mode. Next: Analyse messages and start reducing message transfer. 
 - Test with Android smartphone. Test on Original Pebble and Pebble Steel. (L)
 - Public release in Pebble App Store. App description. Functions. (L)
 - Later: Rework UI. Geocaching App und neuen Kompass als Basis? Uhrzeit und Datum für Logs einblenden, evtl nur wenn Uhr gekickt wird. (XL)
 - Later: Komplett auf Offline-Setting-Page umstellen. (L)
 
-In Work
-- Next: Optimize power consumption. API Calls optimieren. Hintergrundaktivität optimieren. UI optimieren auf möglichst wenig und kleinflächige E-Paper Updates. (L) Started with reduced compass messaging and less redraw activity if not in auto-mode. Next: Analyse messages and start reducing message transfer. 
-- Change the color feedback while navigating from nautic scheme to a more intuitive scheme for non-nautics. Green = Getting closer, target ahead. Yellow = Getting closer but target off to the side. Red = Getting away from target, wrong direction. (L) Removed the coloring for now. (S)
+Active
 
-Done
-- New design. 
+Resolved
+
+Closed
+- 190413: Show real date instead of dummy.
+- 190413: Compile with Pebble SDK under Linux on Windows 10.
+- 2015? New design. 
 - Improved compass acquisition. Set up filter to only receive updates for every 6°.
 - Improved start in auto-mode. Disabled compass acquisition from beginning. 
 - Offline-Setting-Page mit Feld für die schnelle Übernahme eines neuen Ziels. Ziel wird zu oberst in die Liste eingetragen, direkt als Ziel übernommen und die Navigation gestartet. (XL)
